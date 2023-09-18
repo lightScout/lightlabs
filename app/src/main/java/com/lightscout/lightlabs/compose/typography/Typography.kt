@@ -1,4 +1,4 @@
-package com.lightscout.lightlabs.compose.animaiton
+package com.lightscout.lightlabs.compose.typography
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
@@ -52,7 +52,7 @@ fun Typography() {
         letterSpacing = 0.15.sp,
         baselineShift = BaselineShift.Subscript,
         color = Color.Black.copy(alpha = 0.8f),
-        textAlign = TextAlign.Justify,
+        textAlign = TextAlign.Justify
     )
 
     val bodyMedium = TextStyle(
@@ -62,7 +62,7 @@ fun Typography() {
         letterSpacing = 0.15.sp,
         baselineShift = BaselineShift.Subscript,
         color = Color.Black.copy(alpha = 0.5f),
-        textAlign = TextAlign.Justify,
+        textAlign = TextAlign.Justify
     )
 
     val replyTypography = Typography(
