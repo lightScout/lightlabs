@@ -13,11 +13,10 @@ abstract class EventDatabase : RoomDatabase() {
     companion object {
         const val DATABASE_NAME = "event_database"
 
-        // Migration example
         val MIGRATION_1_2 =
                 object : Migration(1, 2) {
                     override fun migrate(db: SupportSQLiteDatabase) {
-                         db.execSQL("ALTER TABLE events ADD COLUMN newColumn TEXT")
+                        db.execSQL("ALTER TABLE events ADD COLUMN newColumn TEXT")
                     }
                 }
     }

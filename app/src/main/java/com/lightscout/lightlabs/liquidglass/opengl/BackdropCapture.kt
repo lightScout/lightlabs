@@ -49,12 +49,10 @@ object BackdropCapture {
         return Bitmap.createScaledBitmap(original, newWidth, newHeight, true)
     }
 
-    /** Generate a test pattern bitmap for development */
     fun createTestPattern(width: Int, height: Int): Bitmap {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
 
-        // Create a gradient pattern
         val paint = android.graphics.Paint()
         val gradient =
                 android.graphics.LinearGradient(
@@ -76,12 +74,10 @@ object BackdropCapture {
         paint.shader = gradient
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
 
-        // Add some geometric patterns
         paint.shader = null
         paint.color = android.graphics.Color.WHITE
         paint.alpha = 100
 
-        // Draw circles
         for (i in 0 until 5) {
             val x = (width * (i + 1) / 6).toFloat()
             val y = (height / 2).toFloat()
@@ -89,7 +85,6 @@ object BackdropCapture {
             canvas.drawCircle(x, y, radius, paint)
         }
 
-        // Draw rectangles
         for (i in 0 until 3) {
             val left = (width * (i + 1) / 4 - width / 20).toFloat()
             val top = (height * 0.7f).toFloat()
@@ -113,11 +108,9 @@ fun CaptureableContent(
     val graphicsLayer = rememberGraphicsLayer()
     var size by remember { mutableStateOf(IntSize.Zero) }
 
-    // Capture when size changes - simplified for now
     LaunchedEffect(size) {
         if (size.width > 0 && size.height > 0) {
             try {
-                // For now, create a test pattern instead of capturing actual content
                 val bitmap = BackdropCapture.createTestPattern(size.width, size.height)
                 onBitmapCaptured(bitmap)
             } catch (e: Exception) {
@@ -129,12 +122,10 @@ fun CaptureableContent(
     Box(
             modifier =
                     modifier.drawWithCache {
-                        // Record drawing operations to graphics layer
                         onDrawWithContent {
                             graphicsLayer.record { this@onDrawWithContent.drawContent() }
                             drawLayer(graphicsLayer)
 
-                            // Update size if changed
                             val newSize = IntSize(size.width.toInt(), size.height.toInt())
                             if (newSize != size) {
                                 size = newSize
@@ -160,15 +151,12 @@ fun RealTimeLiquidGlass(
     var backgroundBitmap by remember { mutableStateOf<Bitmap?>(null) }
 
     Box(modifier = modifier) {
-        // Capturable background
         CaptureableContent(
                 modifier = Modifier.fillMaxSize(),
                 onBitmapCaptured = { bitmap -> backgroundBitmap = bitmap }
         ) { backgroundContent() }
 
-        // Glass layer with captured background
         Box(modifier = Modifier.fillMaxSize()) {
-            // Shader effect
             LiquidGlassShaderView(
                     backgroundBitmap = backgroundBitmap,
                     quality = quality,
@@ -180,7 +168,6 @@ fun RealTimeLiquidGlass(
                     modifier = Modifier.fillMaxSize()
             )
 
-            // Glass content overlay
             glassContent()
         }
     }

@@ -9,10 +9,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import com.lightscout.lightlabs.liquidglass.LiquidGlassQuality
 
-/**
- * Test implementation of liquid glass effects for development. This provides a visual preview
- * without requiring OpenGL.
- */
 @Composable
 fun TestRealTimeLiquidGlass(
         quality: LiquidGlassQuality = LiquidGlassQuality.BALANCED,
@@ -25,34 +21,31 @@ fun TestRealTimeLiquidGlass(
         backgroundContent: @Composable () -> Unit,
         glassContent: @Composable () -> Unit
 ) {
-    Box(modifier = modifier) {
-        // Background layer
-        backgroundContent()
+        Box(modifier = modifier) {
+                backgroundContent()
+                Box(
+                        modifier =
+                                Modifier.fillMaxSize()
+                                        .background(
+                                                brush =
+                                                        Brush.radialGradient(
+                                                                colors =
+                                                                        listOf(
+                                                                                glassColor.copy(
+                                                                                        alpha = 0.1f
+                                                                                ),
+                                                                                glassColor.copy(
+                                                                                        alpha =
+                                                                                                0.05f
+                                                                                ),
+                                                                                Color.Transparent
+                                                                        )
+                                                        )
+                                        )
+                )
 
-        // Glass effect simulation layer
-        Box(
-                modifier =
-                        Modifier.fillMaxSize()
-                                .background(
-                                        brush =
-                                                Brush.radialGradient(
-                                                        colors =
-                                                                listOf(
-                                                                        glassColor.copy(
-                                                                                alpha = 0.1f
-                                                                        ),
-                                                                        glassColor.copy(
-                                                                                alpha = 0.05f
-                                                                        ),
-                                                                        Color.Transparent
-                                                                )
-                                                )
-                                )
-        )
-
-        // Content layer
-        glassContent()
-    }
+                glassContent()
+        }
 }
 
 /** Test version of the shader view that falls back to software blur */
@@ -68,19 +61,18 @@ fun TestLiquidGlassShaderView(
         modifier: Modifier = Modifier,
         onViewCreated: ((Any) -> Unit)? = null
 ) {
-    // Simple glass effect placeholder
-    Box(
-            modifier =
-                    modifier.background(
-                            brush =
-                                    Brush.linearGradient(
-                                            colors =
-                                                    listOf(
-                                                            glassColor.copy(alpha = 0.15f),
-                                                            glassColor.copy(alpha = 0.08f),
-                                                            glassColor.copy(alpha = 0.15f)
-                                                    )
-                                    )
-                    )
-    )
+        Box(
+                modifier =
+                        modifier.background(
+                                brush =
+                                        Brush.linearGradient(
+                                                colors =
+                                                        listOf(
+                                                                glassColor.copy(alpha = 0.15f),
+                                                                glassColor.copy(alpha = 0.08f),
+                                                                glassColor.copy(alpha = 0.15f)
+                                                        )
+                                        )
+                        )
+        )
 }

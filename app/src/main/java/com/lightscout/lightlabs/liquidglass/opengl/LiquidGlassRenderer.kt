@@ -31,31 +31,28 @@ class LiquidGlassRenderer(private val context: Context) : GLSurfaceView.Renderer
 
     private val TAG = "LiquidGlassRenderer"
 
-    // Quad vertices for fullscreen rendering
     private val quadVertices =
             floatArrayOf(
-                    // Positions    // Texture Coords
                     -1.0f,
                     1.0f,
                     0.0f,
-                    1.0f, // Top left
+                    1.0f,
                     -1.0f,
                     -1.0f,
                     0.0f,
-                    0.0f, // Bottom left
+                    0.0f,
                     1.0f,
                     -1.0f,
                     1.0f,
-                    0.0f, // Bottom right
+                    0.0f,
                     1.0f,
                     1.0f,
                     1.0f,
-                    1.0f // Top right
+                    1.0f
             )
 
     private val quadIndices = byteArrayOf(0, 1, 2, 0, 2, 3)
 
-    // Shader parameters
     data class ShaderParams(
             val blurRadius: Float = 10.0f,
             val refractionStrength: Float = 0.5f,
@@ -69,14 +66,10 @@ class LiquidGlassRenderer(private val context: Context) : GLSurfaceView.Renderer
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
 
-        // Enable blending for transparency
         GLES20.glEnable(GLES20.GL_BLEND)
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA)
 
-        // Initialize shader manager
         shaderManager = ShaderManager(context)
-
-        // Initialize geometry
         initializeGeometry()
 
         Log.d(TAG, "Surface created, OpenGL initialized")
@@ -87,7 +80,6 @@ class LiquidGlassRenderer(private val context: Context) : GLSurfaceView.Renderer
         surfaceWidth = width
         surfaceHeight = height
 
-        // Create framebuffer for multi-pass rendering
         createFrameBuffer(width, height)
 
         Log.d(TAG, "Surface changed: ${width}x${height}")
@@ -119,11 +111,8 @@ class LiquidGlassRenderer(private val context: Context) : GLSurfaceView.Renderer
     private fun renderLiquidGlass() {
         val shaderManager = this.shaderManager ?: return
 
-        // Bind texture
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, backgroundTexture)
-
-        // Use liquid glass shader
         val uniforms =
                 mapOf(
                         "u_texture" to 0,
@@ -146,10 +135,8 @@ class LiquidGlassRenderer(private val context: Context) : GLSurfaceView.Renderer
         val shaderManager = this.shaderManager ?: return
 
         if (type == ShaderManager.ShaderType.GAUSSIAN_BLUR) {
-            // Two-pass Gaussian blur for better quality
             applyGaussianBlur(radius)
         } else {
-            // Single-pass blur
             applySinglePassBlur(type, radius)
         }
     }
@@ -158,7 +145,6 @@ class LiquidGlassRenderer(private val context: Context) : GLSurfaceView.Renderer
     private fun applyGaussianBlur(radius: Float) {
         val shaderManager = this.shaderManager ?: return
 
-        // First pass - horizontal
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, frameBuffer)
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, backgroundTexture)
@@ -176,7 +162,6 @@ class LiquidGlassRenderer(private val context: Context) : GLSurfaceView.Renderer
             drawQuad()
         }
 
-        // Second pass - vertical
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0)
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, tempTexture)
@@ -217,14 +202,12 @@ class LiquidGlassRenderer(private val context: Context) : GLSurfaceView.Renderer
 
     /** Initialize quad geometry */
     private fun initializeGeometry() {
-        // Vertex buffer
         val vbb = ByteBuffer.allocateDirect(quadVertices.size * 4)
         vbb.order(ByteOrder.nativeOrder())
         vertexBuffer = vbb.asFloatBuffer()
         vertexBuffer?.put(quadVertices)
         vertexBuffer?.position(0)
 
-        // Index buffer
         indexBuffer = ByteBuffer.allocateDirect(quadIndices.size)
         indexBuffer?.put(quadIndices)
         indexBuffer?.position(0)
@@ -294,7 +277,6 @@ class LiquidGlassRenderer(private val context: Context) : GLSurfaceView.Renderer
         GLES20.glGenFramebuffers(1, frameBuffers, 0)
         frameBuffer = frameBuffers[0]
 
-        // Create temporary texture
         val textures = IntArray(1)
         GLES20.glGenTextures(1, textures, 0)
         tempTexture = textures[0]

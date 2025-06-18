@@ -27,11 +27,7 @@ fun Modifier.backdropBlur(
         drawContent()
 
         if (renderScriptBlur != null) {
-            // TODO: Implement bitmap capture and RenderScript blur
-            // For now, apply enhanced simulation overlay
             drawRect(color = Color.White.copy(alpha = 0.08f), blendMode = BlendMode.Overlay)
-
-            // Add subtle depth simulation
             val blurRadiusPx = with(density) { blurRadius.toPx() }
             val layers =
                     when (quality) {
@@ -57,7 +53,6 @@ fun Modifier.backdropBlur(
                 )
             }
         } else {
-            // Fallback to simple overlay
             drawRect(color = Color.White.copy(alpha = 0.1f), blendMode = BlendMode.Overlay)
         }
     }
@@ -73,15 +68,11 @@ fun Modifier.liquidGlassBackdrop(
 ): Modifier {
 
     return if (enableRealBlur) {
-        // Use RenderScript for real blur
         this.then(
                 Modifier.drawWithContent {
                     drawContent()
 
-                    // Apply glass overlay effect
                     drawRect(color = glassColor, blendMode = BlendMode.Overlay)
-
-                    // Add subtle specular highlight
                     val highlight =
                             Brush.radialGradient(
                                     colors =
@@ -101,14 +92,11 @@ fun Modifier.liquidGlassBackdrop(
                 }
         )
     } else {
-        // Fallback to enhanced simulation
         this.backdropBlur(blurRadius, useRenderScript = false)
     }
 }
 
-/** Utility function to apply noise effect for glass texture */
 fun DrawScope.drawNoiseOverlay(alpha: Float = 0.1f) {
-    // Simple noise simulation using multiple small rectangles
     val noiseSize = 2f
     val rows = (size.height / noiseSize).toInt()
     val cols = (size.width / noiseSize).toInt()
@@ -126,23 +114,17 @@ fun DrawScope.drawNoiseOverlay(alpha: Float = 0.1f) {
     }
 }
 
-/** Creates a frosted glass effect with noise and distortion */
 @Composable
 fun Modifier.frostedGlass(frostStrength: Float = 0.3f, noiseStrength: Float = 0.15f): Modifier {
     return this.drawWithContent {
         drawContent()
-
-        // Apply frosted effect
         drawFrostedOverlay(frostStrength, noiseStrength)
     }
 }
 
-/** Draws the frosted glass overlay effect */
 private fun DrawScope.drawFrostedOverlay(frostStrength: Float, noiseStrength: Float) {
     val width = size.width
     val height = size.height
-
-    // Create a subtle noise pattern
     for (i in 0..50) {
         val x = (width * kotlin.math.sin(i * 2.3) + width) / 2f
         val y = (height * kotlin.math.cos(i * 3.7) + height) / 2f
@@ -155,11 +137,9 @@ private fun DrawScope.drawFrostedOverlay(frostStrength: Float, noiseStrength: Fl
         )
     }
 
-    // Apply frosted overlay
     drawRect(color = Color.White.copy(alpha = frostStrength * 0.2f), blendMode = BlendMode.Overlay)
 }
 
-/** Advanced blur effect using custom image filter */
 @Composable
 fun Modifier.liquidBlur(
         blurRadius: Dp = 20.dp,
@@ -169,23 +149,17 @@ fun Modifier.liquidBlur(
 
     return this.drawWithContent {
         drawContent()
-
-        // Create more realistic blur with multiple techniques
         val layers =
                 when (quality) {
                     BlurQuality.Low -> 4
                     BlurQuality.Medium -> 8
                     BlurQuality.High -> 12
                 }
-
-        // Multi-layer blur simulation
         repeat(layers) { layer ->
             val progress = layer.toFloat() / layers
             val alpha = 0.08f * (1f - progress * 0.5f)
             val offset = (layer + 1) * with(density) { 0.8.dp.toPx() }
             val blur = kotlin.math.sin(progress * kotlin.math.PI / 2).toFloat()
-
-            // Create offset pattern for blur simulation
             for (i in 0..8) {
                 val angle = i * kotlin.math.PI / 4
                 val dx = kotlin.math.cos(angle).toFloat() * offset * blur

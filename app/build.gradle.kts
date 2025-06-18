@@ -65,54 +65,36 @@ dependencies {
     implementation("androidx.compose.material:material:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     
-    // Animation and graphics
     implementation("androidx.compose.animation:animation:1.6.1")
     implementation("androidx.compose.animation:animation-graphics:1.6.1")
-    
-    // Advanced graphics for shaders and blur effects
     implementation("androidx.graphics:graphics-core:1.0.0-alpha04")
-    
-    // For sensor data (gyroscope, accelerometer) for dynamic lighting
     implementation("androidx.compose.runtime:runtime-livedata:1.6.1")
     
-    // Rive
     implementation("app.rive:rive-android:5.0.0")
     implementation("androidx.startup:startup-runtime:1.1.1")
     implementation("androidx.compose.material3:material3-android:1.3.2")
-    
-    // OpenGL ES for shader effects (built into Android)
     implementation("androidx.compose.ui:ui-viewbinding:1.6.1")
 
-    // Hilt for Dependency Injection
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-compiler:2.48")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
-    // Google Maps
     implementation("com.google.maps.android:maps-compose:4.3.3")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
 
-    // Room Database
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
 
-    // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.6")
-
-    // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    
-    // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-    // Retrofit for API calls
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
-    // Permission handling
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
     testImplementation("junit:junit:4.13.2")
