@@ -1,22 +1,16 @@
 package com.lightscout.lightlabs.compose.animaiton
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.indication
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -55,13 +49,7 @@ fun AnimatedContentSize() {
                 .padding(16.dp)
                 .clickable {
                     expand = !expand
-                }
-                .indication(
-                    interactionSource = MutableInteractionSource(), indication = rememberRipple(
-                        color = Color.White,
-                        radius = 8.dp
-                    )
-                )) {
+                }) {
             Column(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.Center,

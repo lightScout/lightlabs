@@ -6,14 +6,10 @@ import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.LargeFloatingActionButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,42 +26,38 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AnimateFloatAsState() {
 
-    val brush = linearGradient(
-        colors = listOf(
-            Color(0xFF12B3EB),
-            Color(0xFF1DA5ED),
-            Color(0xFF2897F0),
-            Color(0xFF338AF2),
-            Color(0xFF3E7CF4),
-            Color(0xFF496EF7),
-            Color(0xFF5460F9),
-        )
-    )
-
+    val brush =
+            linearGradient(
+                    colors =
+                            listOf(
+                                    Color(0xFF12B3EB),
+                                    Color(0xFF1DA5ED),
+                                    Color(0xFF2897F0),
+                                    Color(0xFF338AF2),
+                                    Color(0xFF3E7CF4),
+                                    Color(0xFF496EF7),
+                                    Color(0xFF5460F9),
+                            )
+            )
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(brush),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize().background(brush),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-
         var index by remember { mutableStateOf(32) }
         val size by animateIntAsState(targetValue = index, label = "")
 
         LargeFloatingActionButton(
-            onClick = { index += 150 },
-            shape = CircleShape,
-            containerColor = Color(0xFFC6F8FF),
-            modifier = Modifier.size(size.dp).indication(
-                indication = null,
-                interactionSource = MutableInteractionSource()
-            )
-        ) {
-
-        }
+                onClick = { index += 150 },
+                shape = CircleShape,
+                containerColor = Color(0xFFC6F8FF),
+                modifier =
+                        Modifier.size(size.dp)
+                                .indication(
+                                        indication = null,
+                                        interactionSource = remember { MutableInteractionSource() }
+                                )
+        ) {}
     }
-
-
 }

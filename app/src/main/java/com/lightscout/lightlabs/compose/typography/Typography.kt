@@ -5,8 +5,6 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.indication
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -84,12 +81,7 @@ fun Typography() {
                 colors = CardDefaults.cardColors(containerColor = Color(0xFFF1EFE9)),
                 modifier = Modifier
                     .padding(16.dp)
-                    .indication(
-                        interactionSource = MutableInteractionSource(), indication = rememberRipple(
-                            color = Color.White,
-                            radius = 8.dp
-                        )
-                    )
+                    
             ) {
                 Column(
                     modifier = Modifier
